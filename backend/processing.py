@@ -84,8 +84,8 @@ def stock_shares_over_time(file, ticker):
     shares_over_time = {"Date": {"Shares", "Price"}}
     return shares_over_time
 
-file = join_files(["Allen Innovation Active Fund - 2022.csv", "Allen Innovation Active Fund - 2023.csv", 
-           "Allen Innovation Active Fund - 2024.csv"])
-fix_dataset(file)
-print(get_all_traded_tickers(file))
+# file = join_files(["Allen Innovation Active Fund - 2022.csv", "Allen Innovation Active Fund - 2023.csv", 
+#           "Allen Innovation Active Fund - 2024.csv"])
+# fix_dataset(file)
+# print(get_all_traded_tickers(file))
 # holdings_by_date(file)

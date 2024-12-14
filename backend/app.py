@@ -17,11 +17,12 @@ def home():
 def get_traded_tickers():
     file = processing.join_files(["Allen Innovation Active Fund - 2022.csv", "Allen Innovation Active Fund - 2023.csv", 
            "Allen Innovation Active Fund - 2024.csv"])
-    return {"tickers": processing.get_all_traded_tickers(file)}
+    return {"tickers": processing.get_all_traded_tickers(file).tolist()}
 
 @app.route('/get_shares_over_time', methods=['GET'])
 def get_shares_over_time():
-    ticker = "GOOG" 
+    ticker = request.args.get("ticker")
+    print(ticker)
 
     file = processing.join_files(["Allen Innovation Active Fund - 2022.csv", "Allen Innovation Active Fund - 2023.csv", 
            "Allen Innovation Active Fund - 2024.csv"])
