@@ -9,7 +9,6 @@ import Link from 'next/link';
 
 const navigation = [
 	{ name: 'Current Holdings', href: '/' },
-	{ name: 'Portfolio History', href: '/PortfolioHistory' },
 	{ name: 'Stock History', href: '/StockHistory' }
 ]
 

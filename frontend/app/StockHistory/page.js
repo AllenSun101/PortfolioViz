@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
 import React from "react";
 import {
     ComposedChart,
@@ -16,20 +15,11 @@ import {
     ResponsiveContainer,
 } from "recharts";
 
-const data = [
-    { time: "2024-12-10", price: 150, shares: 100 },
-    { time: "2024-12-11", price: 160, shares: 120 },
-    { time: "2024-12-12", price: 155, shares: 90 },
-    { time: "2024-12-13", price: 170, shares: 140 },
-    { time: "2024-12-14", price: 165, shares: 110 },
-];
-
 export default function StockHistory(){
     const [stocks, setStocks] = useState([]);
     const [filteredStocks, setFilteredStocks] = useState(stocks);
     const [inputValue, setInputValue] = useState("");
-    const [dates, setDates] = useState([]);
-
+    const [series, setSeries] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,7 +41,7 @@ export default function StockHistory(){
                 ticker: ticker,
             }
         });
-
+        setSeries(response.data.data);
         setInputValue(ticker);
         setFilteredStocks(stocks);
     };
@@ -61,7 +51,7 @@ export default function StockHistory(){
         setInputValue(value);
         setFilteredStocks(
             stocks.filter((ticker) =>
-                ticker.toLowerCase().includes(value.toLowerCase())
+                ticker.replace(/[^a-zA-Z]/g, '').toLowerCase().includes(value.replace(/[^a-zA-Z]/g, '').toLowerCase())
             )
         );
     };
@@ -91,9 +81,9 @@ export default function StockHistory(){
             </div>
 
         <ResponsiveContainer width="100%" height={400}>
-            <ComposedChart data={data}>
+            <ComposedChart data={series}>
                 {/* X-Axis */}
-                <XAxis dataKey="time" />
+                <XAxis dataKey="Date" />
                 {/* Y-Axis for Shares */}
                 <YAxis yAxisId="left" label={{ value: "Shares", angle: -90, position: "insideLeft" }} />
                 {/* Y-Axis for Price */}
@@ -101,6 +91,7 @@ export default function StockHistory(){
                     yAxisId="right"
                     orientation="right"
                     label={{ value: "Price", angle: -90, position: "insideRight" }}
+                    domain={['auto', 'auto']}
                 />
                 {/* Grid */}
                 <CartesianGrid strokeDasharray="3 3" />
@@ -112,18 +103,20 @@ export default function StockHistory(){
                 <Area
                     yAxisId="right"
                     type="monotone"
-                    dataKey="price"
+                    dataKey="Price"
                     fill="purple"
                     stroke="purple"
+                    strokeWidth={2}
                     fillOpacity={0.3} // Add transparency
+                    baseValue="dataMin"
                 />
                 {/* Line Chart for Shares */}
                 <Line
                     yAxisId="left"
                     type="monotone"
-                    dataKey="shares"
+                    dataKey="Shares"
                     stroke="#8884d8"
-                    strokeWidth={2}
+                    strokeWidth={3}
                 />
             </ComposedChart>
         </ResponsiveContainer>

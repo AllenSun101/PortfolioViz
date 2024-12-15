@@ -19,6 +19,8 @@ def get_traded_tickers():
            "Allen Innovation Active Fund - 2024.csv"])
     return {"tickers": processing.get_all_traded_tickers(file).tolist()}
 
+# Presplit Adjustments
+# Current Portfolio Table & Backend Clean Up
 @app.route('/get_shares_over_time', methods=['GET'])
 def get_shares_over_time():
     ticker = request.args.get("ticker")
@@ -26,8 +28,7 @@ def get_shares_over_time():
 
     file = processing.join_files(["Allen Innovation Active Fund - 2022.csv", "Allen Innovation Active Fund - 2023.csv", 
            "Allen Innovation Active Fund - 2024.csv"])
-    file = processing.fix_dataset(file)
-    return jsonify(processing.stock_shares_over_time(file, ticker))
+    return {"data": processing.stock_shares_over_time(file, ticker)}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
